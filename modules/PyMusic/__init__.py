@@ -38,6 +38,8 @@ def web_scraper(query):
                 name = name.split('-')
                 if '(' in name[1]:
                     name[1] = name[1].split('(')[0]
+                if '[' in name[1]:
+                    name[1] = name[1].split('[')[0]
 
                 if name[0][-1] == ' ':
                     name[0] = name[0][:-1]
@@ -45,6 +47,7 @@ def web_scraper(query):
                     name[1] = name[1][:-1]
                 if name[1][0] == ' ':
                     name[1] = name[1][1::]
+                print(name)
                 break
 
 
