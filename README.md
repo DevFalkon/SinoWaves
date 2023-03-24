@@ -1,6 +1,4 @@
 # SinoWaves
- 
-## Compiling the project to windows exe
 
 ## Running the project as a python project
 
@@ -13,3 +11,16 @@ venv\Scripts\activate
 pip install pygame
 python main.py
 ```
+
+## Compiling the project to windows exe
+
+**After creating the venv folder**
+```
+venv\Scripts\activate
+pip install pyinstaller
+pyinstaller main.py --onefile --noconsole --clean
+```
+
+the executable will be in the dist folder
+move dist\main.exe to the root directory
+delete the build and venv folders
