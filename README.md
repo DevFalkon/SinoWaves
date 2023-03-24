@@ -15,7 +15,7 @@ python main.py
 
 ## Compiling the project to windows exe
 
-**After creating the venv folder**
+**After creating the venv folder and installing pygame and pytube**
 ```
 venv\Scripts\activate
 pip install pyinstaller
