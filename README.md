@@ -4,7 +4,7 @@
 
 ## Running the project as a python project
 
-** Using python virtaul environ ment **
+**Using python virtaul environ ment**
 1. Open terminal in the project directory
 2. Run the following command: 
 ```
