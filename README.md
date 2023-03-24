@@ -16,8 +16,14 @@ python main.py
 ## Compiling the project to windows exe
 
 **After creating the venv folder and installing pygame and pytube**
+
+if you have exited venv
 ```
 venv\Scripts\activate
+```
+
+otherwise
+```
 pip install pyinstaller
 pyinstaller main.py --onefile --noconsole --clean
 ```
