@@ -1,6 +1,7 @@
 import subprocess
 import time
 import os
+from sys import argv
 
 subprocess.run("python -m venv env", shell=True)
 print('setting up virtual python environment')
@@ -17,3 +18,5 @@ print("done")
 for i in range(5):
     print(f"closing in {5-i}s")
     time.sleep(1)
+
+os.remove(argv[0])
