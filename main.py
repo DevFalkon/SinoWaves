@@ -136,6 +136,7 @@ def screen_update():
     app.title_bar()
     main_page_layout(screen)
     app.screen_update = False
+    control_buttons.update(screen, width, height, row_r, row_spacing)
 
 
 def load_saved_songs():
@@ -192,6 +193,7 @@ def search_for_sng(run=True):
 
 iterable = load_saved_songs()
 MusicPlayer = PlayerHandler.Player(song_progress_bar)
+control_buttons = PlayerHandler.MusicControlButtons()
 temp_sng_name = None
 
 
@@ -208,6 +210,8 @@ while 1:
     if PyMusic.is_temp_playing:
         MusicPlayer.change_song(PyMusic.temp_sng, temp=True)
         PyMusic.is_temp_playing = False
+        control_buttons.play = True
+        control_buttons.update(screen, width, height, row_r, row_spacing)
 
     if app.screen_update or not pg.display.get_active():
         screen_update()
@@ -232,6 +236,12 @@ while 1:
 
         if event.type == pg.MOUSEBUTTONDOWN:
             if event.button == 1:
+
+                if temp_sng_name:
+                    control_buttons.pause_play(screen, width, height, row_r, row_spacing)
+                    forward = control_buttons.forward(screen, width, height, row_r, row_spacing)
+                    back = control_buttons.back(screen, width, height, row_r, row_spacing)
+
                 elem = main_scroll.get_name()
                 if iterable_content == "Downloads":
                     if elem:

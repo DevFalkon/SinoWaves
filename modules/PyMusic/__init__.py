@@ -33,22 +33,7 @@ def web_scraper(query):
             name = vid.title
         except Exception:
             continue
-        if ('concert' or 'live') not in name.lower():
-            if '-' in name:
-                name = name.split('-')
-                if '(' in name[1]:
-                    name[1] = name[1].split('(')[0]
-                if '[' in name[1]:
-                    name[1] = name[1].split('[')[0]
-
-                if name[0][-1] == ' ':
-                    name[0] = name[0][:-1]
-                if name[1][-1] == ' ':
-                    name[1] = name[1][:-1]
-                if name[1][0] == ' ':
-                    name[1] = name[1][1::]
-                print(name)
-                break
+        print(name)
 
 
 is_temp_playing = False
