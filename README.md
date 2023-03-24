@@ -6,7 +6,7 @@
 1. Open terminal in the project directory
 2. Run the following command: 
 ```
-pytohn -m venv venv
+python -m venv venv
 venv\Scripts\activate
 pip install pygame
 python main.py
