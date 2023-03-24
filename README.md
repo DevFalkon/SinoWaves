@@ -25,7 +25,7 @@ venv\Scripts\activate
 otherwise
 ```
 pip install pyinstaller
-pyinstaller main.py --onefile --noconsole --clean
+pyinstaller main.py --onefile --noconsole --clean --icon=Graphics\icon.ico
 ```
 
 the executable will be in the dist folder

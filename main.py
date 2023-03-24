@@ -7,6 +7,8 @@ import modules.PlayerHandler as PlayerHandler
 from threading import Thread
 
 app = PygameGUI.GuiWindow()
+icon = pg.image.load('graphics//icon.png').convert_alpha()
+pg.display.set_icon(icon)
 app.title = "Sino Waves"
 pg.display.set_caption(app.title)
 app.maximise()
@@ -211,6 +213,10 @@ while 1:
         MusicPlayer.change_song(PyMusic.temp_sng, temp=True)
         PyMusic.is_temp_playing = False
         control_buttons.play = True
+        control_buttons.update(screen, width, height, row_r, row_spacing)
+
+    if not pg.mixer.music.get_busy() and control_buttons.play:
+        control_buttons.play = False
         control_buttons.update(screen, width, height, row_r, row_spacing)
 
     if app.screen_update or not pg.display.get_active():
