@@ -23,4 +23,4 @@ pyinstaller main.py --onefile --noconsole --clean
 
 the executable will be in the dist folder
 move dist\main.exe to the root directory
-delete the build and venv folders
+delete the build and venv folders, and main.py file
