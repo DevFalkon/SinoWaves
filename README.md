@@ -9,6 +9,7 @@
 python -m venv venv
 venv\Scripts\activate
 pip install pygame
+pip install pytube
 python main.py
 ```
 
