@@ -6,9 +6,8 @@ import modules.PyMusic as PyMusic
 import modules.PlayerHandler as PlayerHandler
 from threading import Thread
 
-app = PygameGUI.GuiWindow()
-icon = pg.image.load('graphics//icon.png').convert_alpha()
-pg.display.set_icon(icon)
+icon = 'graphics//icon.png'
+app = PygameGUI.GuiWindow(logo=icon)
 app.title = "Sino Waves"
 pg.display.set_caption(app.title)
 app.maximise()

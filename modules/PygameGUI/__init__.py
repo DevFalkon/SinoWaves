@@ -67,6 +67,7 @@ class GuiWindow:
         self.screen = pg.display.set_mode((width, height), pg.NOFRAME)
         pg.display.set_caption(self.title)
 
+        self.logo = logo
         if logo:
             icon = pg.image.load(logo).convert_alpha()
             pg.display.set_icon(icon)
@@ -208,6 +209,11 @@ class GuiWindow:
             font = pg.font.Font('modules\\PygameGUI\\fonts\\Inter-Regular.ttf', title_size)
             text = font.render(self.title, True, self.color('white'))
             self.screen.blit(text, (self.width // 2 - (len(self.title) // 3) * title_size, 5))
+
+        if self.logo:
+            icon = pg.image.load(self.logo).convert_alpha()
+            icon = pg.transform.smoothscale(icon, (self.top_bar_height-5, self.top_bar_height-5))
+            self.screen.blit(icon, (10, 2))
 
         self.close_bttn = Circle(self.screen, self.width - 25,
                                  self.top_bar_height // 2,
