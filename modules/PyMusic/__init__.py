@@ -33,7 +33,6 @@ def web_scraper(query):
             name = vid.title
         except Exception:
             continue
-        print(name)
 
 
 is_temp_playing = False

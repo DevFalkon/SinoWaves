@@ -243,7 +243,8 @@ while 1:
             if event.button == 1:
 
                 if temp_sng_name:
-                    control_buttons.pause_play(screen, width, height, row_r, row_spacing)
+                    if pg.mixer.music.get_pos() != -1:
+                        control_buttons.pause_play(screen, width, height, row_r, row_spacing)
                     forward = control_buttons.forward(screen, width, height, row_r, row_spacing)
                     back = control_buttons.back(screen, width, height, row_r, row_spacing)
 
