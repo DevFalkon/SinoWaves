@@ -1,5 +1,4 @@
 import subprocess
-import time
 import urllib.request
 import re
 import os
@@ -46,7 +45,7 @@ def web_scraper(query):
     for i in vid_id:
         try:
             process = subprocess.Popen(['utilities\\yt-dlp\\yt-dlp.exe', '--print', 'title', i],
-                                       stdout=subprocess.PIPE)
+                                       stdout=subprocess.PIPE, creationflags=subprocess.CREATE_NO_WINDOW)
             name = str(process.communicate()[0])[2:-3]
             res = get_name(name, query)
             if res:
