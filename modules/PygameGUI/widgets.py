@@ -164,7 +164,6 @@ class Button:
         rounded_rect(self.screen, self.top_x, self.top_y, self.width, self.height, self.rad, self.color,
                      bg_color=bg_col)
         font_size = self.height//2
-        text_len = len(text)
         font = pg.font.Font('modules\\PygameGUI\\fonts\\Inter-Regular.ttf', font_size)
         text = font.render(text, True, colors(font_col))
         self.screen.blit(text, (self.top_x+5,

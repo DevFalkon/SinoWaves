@@ -95,6 +95,12 @@ def inst(link, name):
         return
 
 
+installing = False
+
+
 def convert(name):
+    global installing
+    installing = True
     subprocess.call(f'utilities\\ffmpeg\\ffmpeg.exe -i "saved\\temp\\{name}.wav" "saved\\music\\{name}.mp3"',
                     creationflags=subprocess.CREATE_NO_WINDOW)
+    installing = False
