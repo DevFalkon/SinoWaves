@@ -47,6 +47,21 @@ search_bar = widgets.SearchBar(screen, 2 * column_spacing + int(col_r[0] * width
                                int(col_r[1] * width) - 2 * column_spacing, int(height * row_r[0]))
 
 
+def update_scroll_header(text):
+    font = pg.font.Font('modules\\PygameGUI\\fonts\\Inter-Regular.ttf', size=height // 16)
+    widgets.draw_rect(screen, 3 * column_spacing + int(col_r[0] * width) + 10,
+                      y_coord_0 + 2 * row_spacing + int(height * row_r[0]) + 112 - height // 16,
+                      int(col_r[1] * width) - 2 * column_spacing - 24,
+                      height // 16 + 20, widgets.colors('dark_grey'))
+    text = font.render(text.capitalize(), True, widgets.colors('white'))
+    screen.blit(text, (3 * column_spacing + int(col_r[0] * width) + 10,
+                       y_coord_0 + 2 * row_spacing + int(height * row_r[0]) + 112 - height // 16))
+    pg.display.update(pg.Rect(3 * column_spacing + int(col_r[0] * width) + 10,
+                              y_coord_0 + 2 * row_spacing + int(height * row_r[0]) + 112 - height // 16,
+                              int(col_r[1] * width) - 2 * column_spacing - 24,
+                              height // 16 + 20))
+
+
 def main_scroll_elements(surface):
     # Song list background
     widgets.rounded_rect(surface, 2 * column_spacing + int(col_r[0] * width),
@@ -61,10 +76,12 @@ def main_scroll_elements(surface):
                          int(height * (row_r[1] - row_r[0])) - 3 * row_spacing - 4,
                          menu_radius,
                          widgets.colors('dark_grey'), None)
-    font = pg.font.Font('modules\\PygameGUI\\fonts\\Inter-Regular.ttf', size=height // 16)
-    text = font.render(iterable_content, True, widgets.colors('white'))
-    screen.blit(text, (3 * column_spacing + int(col_r[0] * width) + 10,
-                       y_coord_0 + 2 * row_spacing + int(height * row_r[0]) + 112 - height // 16))
+    text = ''
+    if iterable_content == "downloads":
+        text = "downloads"
+    elif iterable_content == "recent":
+        text = "recently played"
+    update_scroll_header(text)
     pg.display.update(pg.Rect(3 * column_spacing + int(col_r[0] * width) + 10,
                               y_coord_0 + 2 * row_spacing + int(height * row_r[0]) + 122 - height // 16,
                               int(col_r[1] * width) - 5 * column_spacing, height // 16 + 10))
@@ -229,6 +246,7 @@ iterable = load_saved_songs()
 MusicPlayer = PlayerHandler.Player(song_progress_bar)
 control_buttons = PlayerHandler.MusicControlButtons()
 temp_sng_name = None
+current_sng_name = None
 
 while 1:
 
@@ -279,18 +297,20 @@ while 1:
             if event.button == 1:
                 if downloads.get_pressed(pg.mouse.get_pos()):
                     if iterable_content != "downloads":
+                        update_scroll_header("downloads")
                         iterable_content = "downloads"
                         iterable = load_saved_songs()
                         main_scroll.iterable = iterable
                         main_scroll.force_update()
                 if recently_played.get_pressed(pg.mouse.get_pos()):
                     if iterable_content != "recent":
+                        update_scroll_header("recently played")
                         iterable_content = "recent"
                         iterable = load_recent_songs()
                         main_scroll.iterable = iterable
                         main_scroll.force_update()
 
-                if temp_sng_name:
+                if temp_sng_name or current_sng_name:
                     if pg.mixer.music.get_pos() != -1:
                         control_buttons.pause_play(screen, width, height, row_r, row_spacing)
                     forward = control_buttons.forward(screen, width, height, row_r, row_spacing)
@@ -300,9 +320,15 @@ while 1:
 
                 if iterable_content == "downloads":
                     if elem:
+                        current_sng_name = elem
+                        control_buttons.play = True
+                        control_buttons.update(screen, width, height, row_r, row_spacing)
                         MusicPlayer.change_song(elem)
                 elif iterable_content == "recent":
                     if elem:
+                        temp_sng_name = elem
+                        control_buttons.play = True
+                        control_buttons.update(screen, width, height, row_r, row_spacing)
                         MusicPlayer.change_song(elem, temp=True)
                 else:
                     if elem:
