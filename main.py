@@ -189,7 +189,6 @@ def load_saved_songs():
     else:
         os.mkdir('saved')
         os.mkdir('saved\\temp')
-        os.mkdir('saved\\icon')
         os.mkdir('saved\\music')
 
     dat = []
