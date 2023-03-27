@@ -93,3 +93,8 @@ def inst(link, name):
         if f'{name}.mp4' in os.listdir("saved\\temp"):
             os.remove(f"saved\\temp\\{name}.mp4")
         return
+
+
+def convert(name):
+    subprocess.call(f'utilities\\ffmpeg\\ffmpeg.exe -i "saved\\temp\\{name}.wav" "saved\\music\\{name}.mp3"',
+                    creationflags=subprocess.CREATE_NO_WINDOW)

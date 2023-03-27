@@ -25,9 +25,10 @@ menu_radius = 25
 y_coord_0 = app.top_bar_height
 height = app.height - app.top_bar_height
 width = app.width
-iterable_content = "Downloads"
+iterable_content = "downloads"
 iterable = []
-
+recently_played = widgets.Button(screen, 0, 0, 10, 10, 10, widgets.colors('white'))
+downloads = widgets.Button(screen, 0, 0, 10, 10, 10, widgets.colors('white'))
 
 main_scroll = widgets.Scroll(screen, 3 * column_spacing + int(col_r[0] * width),
                              y_coord_0 + 2 * row_spacing + int(height * row_r[0]) + 152,
@@ -35,7 +36,6 @@ main_scroll = widgets.Scroll(screen, 3 * column_spacing + int(col_r[0] * width),
                              int(height * (row_r[1] - row_r[0])) - 3 * row_spacing - 162,
                              iterable,
                              height)
-
 
 song_progress_bar = widgets.PlayerProgressBar(screen,
                                               40,
@@ -73,6 +73,9 @@ def main_scroll_elements(surface):
                       int(col_r[1] * width) - 4 * column_spacing, 4, widgets.colors('white'))
     global main_scroll
     save_iter = main_scroll.iterable
+    if not save_iter:
+        if iterable_content == "downloads":
+            save_iter = load_saved_songs()
     main_scroll = widgets.Scroll(screen, 3 * column_spacing + int(col_r[0] * width),
                                  y_coord_0 + 2 * row_spacing + int(height * row_r[0]) + 135,
                                  int(col_r[1] * width) - 4 * column_spacing,
@@ -121,12 +124,25 @@ def main_page_layout(surface):
     search_bar = widgets.SearchBar(surface, 2 * column_spacing + int(col_r[0] * width),
                                    y_coord_0 + row_spacing,
                                    int(col_r[1] * width) - 2 * column_spacing, int(height * row_r[0]))
-
     global song_progress_bar
     song_progress_bar.width = width - 80
     song_progress_bar.height = height // 65
     song_progress_bar.top_y = int(height * (1 - row_r[2])) + 5 * row_spacing
     song_progress_bar.render_bg()
+
+    button_height = int(row_r[1] * height) // 16
+    sch_bar_height = search_bar.height
+    global downloads
+    downloads = widgets.Button(screen, column_spacing + 5, y_coord_0 + 2*row_spacing + sch_bar_height,
+                               int(col_r[0] * width) - 10, int(row_r[1] * height) // 16, menu_radius-10,
+                               widgets.colors('dark_grey'),
+                               text="Downloads", bg_col="blue_1")
+    global recently_played
+    recently_played = widgets.Button(screen, column_spacing + 5,
+                                     y_coord_0 + 2*row_spacing + height//300 + button_height + sch_bar_height,
+                                     int(col_r[0] * width) - 10, int(row_r[1] * height) // 16, menu_radius-10,
+                                     widgets.colors('dark_grey'),
+                                     text="Recently Played", bg_col="blue_1")
 
 
 def screen_update():
@@ -152,6 +168,23 @@ def load_saved_songs():
 
     dat = []
     for file in os.listdir('saved\\music'):
+        file = file[:-4]
+        dat.append(file)
+
+    return dat
+
+
+def load_recent_songs():
+    for directory in os.listdir():
+        if directory == 'saved':
+            break
+    else:
+        os.mkdir('saved')
+        os.mkdir('saved\\temp')
+        os.mkdir('saved\\music')
+
+    dat = []
+    for file in os.listdir('saved\\temp'):
         file = file[:-4]
         dat.append(file)
 
@@ -197,7 +230,6 @@ MusicPlayer = PlayerHandler.Player(song_progress_bar)
 control_buttons = PlayerHandler.MusicControlButtons()
 temp_sng_name = None
 
-
 while 1:
 
     app.win_update()
@@ -229,18 +261,34 @@ while 1:
             if search_bar.is_active:
                 if search_bar.text != '':
                     if event.key == pg.K_RETURN:
+                        iterable_content = "search"
                         th = Thread(target=search_for_sng)
                         th.start()
                         temp_sng_name = search_bar.text
                         got_search_res = False
                 search_bar.type(event.key)
-
+            elif event.key == pg.K_RETURN and MusicPlayer.song:
+                if f"{MusicPlayer.song}.mp3" not in os.listdir("saved\\music"):
+                    th = Thread(target=PyMusic.convert(MusicPlayer.song))
+                    th.start()
         if event.type == pg.MOUSEWHEEL:
             if event.y:
                 main_scroll.update(ev=event.y)
 
         if event.type == pg.MOUSEBUTTONDOWN:
             if event.button == 1:
+                if downloads.get_pressed(pg.mouse.get_pos()):
+                    if iterable_content != "downloads":
+                        iterable_content = "downloads"
+                        iterable = load_saved_songs()
+                        main_scroll.iterable = iterable
+                        main_scroll.force_update()
+                if recently_played.get_pressed(pg.mouse.get_pos()):
+                    if iterable_content != "recent":
+                        iterable_content = "recent"
+                        iterable = load_recent_songs()
+                        main_scroll.iterable = iterable
+                        main_scroll.force_update()
 
                 if temp_sng_name:
                     if pg.mixer.music.get_pos() != -1:
@@ -249,9 +297,13 @@ while 1:
                     back = control_buttons.back(screen, width, height, row_r, row_spacing)
 
                 elem = main_scroll.get_name()
-                if iterable_content == "Downloads":
+
+                if iterable_content == "downloads":
                     if elem:
                         MusicPlayer.change_song(elem)
+                elif iterable_content == "recent":
+                    if elem:
+                        MusicPlayer.change_song(elem, temp=True)
                 else:
                     if elem:
                         if not PyMusic.curr_ints:

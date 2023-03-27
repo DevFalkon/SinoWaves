@@ -151,7 +151,8 @@ class SearchBar:
 
 
 class Button:
-    def __init__(self, screen, top_x, top_y, width, height, rad, color, text="button"):
+    def __init__(self, screen, top_x, top_y, width, height, rad, color, text="button", bg_col="dark_grey",
+                 font_col='white'):
         self.screen = screen
         self.top_x = top_x
         self.top_y = top_y
@@ -160,12 +161,20 @@ class Button:
         self.rad = rad
         self.color = color
         self.text = text
-        rounded_rect(self.screen, self.top_x, self.top_y, self.width, self.height, self.rad, self.color)
+        rounded_rect(self.screen, self.top_x, self.top_y, self.width, self.height, self.rad, self.color,
+                     bg_color=bg_col)
+        font_size = self.height//2
+        text_len = len(text)
+        font = pg.font.Font('modules\\PygameGUI\\fonts\\Inter-Regular.ttf', font_size)
+        text = font.render(text, True, colors(font_col))
+        self.screen.blit(text, (self.top_x+5,
+                                self.top_y+(self.height-font_size)//2-3))
+        pg.display.update(pg.Rect(self.top_x, self.top_y, self.width, self.height))
 
     def get_pressed(self, mouse_pos):
         if rounded_rect(self.screen, self.top_x, self.top_y, self.width, self.height, self.rad, self.color,
-                        mouse_pos=mouse_pos):
-            return True, self.text
+                        mouse_pos=mouse_pos, update=False):
+            return self.text
 
 
 class Scroll:
