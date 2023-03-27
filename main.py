@@ -314,7 +314,23 @@ while 1:
                     if pg.mixer.music.get_pos() != -1:
                         control_buttons.pause_play(screen, width, height, row_r, row_spacing)
                     forward = control_buttons.forward(screen, width, height, row_r, row_spacing)
+                    if forward:
+                        ind = iterable.index(current_sng_name)
+                        if ind == len(iterable)-1:
+                            ind = 0
+                        else:
+                            ind += 1
+                        current_sng_name = iterable[ind]
+                        MusicPlayer.change_song(current_sng_name)
                     back = control_buttons.back(screen, width, height, row_r, row_spacing)
+                    if back:
+                        ind = iterable.index(current_sng_name)
+                        if ind == 0:
+                            ind = len(iterable)-1
+                        else:
+                            ind -= 1
+                        current_sng_name = iterable[ind]
+                        MusicPlayer.change_song(current_sng_name)
 
                 elem = main_scroll.get_name()
 
