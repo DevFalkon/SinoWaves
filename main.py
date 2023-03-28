@@ -256,6 +256,7 @@ control_buttons = PlayerHandler.MusicControlButtons()
 temp_sng_name = None
 current_sng_name = None
 
+
 while 1:
 
     app.win_update()
@@ -279,7 +280,7 @@ while 1:
     if app.screen_update or not pg.display.get_active():
         screen_update()
 
-    if current_sng_name and pg.mixer.music.get_pos() == -1:
+    if current_sng_name and pg.mixer.music.get_pos() == -1 and len(iterable)>1:
         ind = iterable.index(current_sng_name)
         if ind == len(iterable)-1:
             ind = 0
