@@ -255,6 +255,7 @@ MusicPlayer = PlayerHandler.Player(song_progress_bar)
 control_buttons = PlayerHandler.MusicControlButtons()
 temp_sng_name = None
 current_sng_name = None
+min_check = False
 
 
 while 1:
@@ -277,8 +278,14 @@ while 1:
         control_buttons.play = False
         control_buttons.update(screen, width, height, row_r, row_spacing)
 
-    if app.screen_update or not pg.display.get_active():
-        pg.time.wait(10)
+    if not pg.display.get_active():
+        min_check = True
+
+    if min_check and pg.display.get_active():
+        min_check = False
+        app.screen_update = True
+
+    if app.screen_update:
         pg.display.set_mode((app.width, app.height), pg.NOFRAME)
         screen_update()
 
