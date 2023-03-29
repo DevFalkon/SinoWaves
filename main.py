@@ -279,9 +279,10 @@ while 1:
 
     if app.screen_update or not pg.display.get_active():
         pg.time.wait(10)
+        pg.display.set_mode((app.width, app.height), pg.NOFRAME)
         screen_update()
 
-    if current_sng_name and pg.mixer.music.get_pos() == -1 and len(iterable)>1:
+    if current_sng_name and pg.mixer.music.get_pos() == -1 and len(iterable) > 1:
         ind = iterable.index(current_sng_name)
         if ind == len(iterable)-1:
             ind = 0
