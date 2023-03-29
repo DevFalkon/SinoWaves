@@ -278,6 +278,7 @@ while 1:
         control_buttons.update(screen, width, height, row_r, row_spacing)
 
     if app.screen_update or not pg.display.get_active():
+        pg.time.wait(10)
         screen_update()
 
     if current_sng_name and pg.mixer.music.get_pos() == -1 and len(iterable)>1:
