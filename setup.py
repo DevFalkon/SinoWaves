@@ -15,7 +15,7 @@ os.rename("main.exe", "SinoWaves.exe")
 subprocess.run("rmdir /s /Q env", shell=True)
 subprocess.run("rmdir /s /Q build", shell=True)
 subprocess.run("rmdir /s /Q dist", shell=True)
-if "del" is os.listdir():
+if "del" in os.listdir():
     subprocess.run("rmdir /s /Q del", shell=True)
 os.remove(argv[0])
 subprocess.Popen(['SinoWaves.exe'])

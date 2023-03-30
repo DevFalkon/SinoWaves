@@ -5,6 +5,8 @@ import re
 
 print('starting update')
 print('removing previous version')
+if "del" in os.listdir():
+    subprocess.run("rmdir /s /Q del", shell=True)
 os.mkdir("del")
 for i in os.listdir():
     if i != "saved" and i != "del" and i != "update.py":
