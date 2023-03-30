@@ -53,11 +53,6 @@ def check_for_updates():
     import urllib.request
     import re
 
-    for i in os.listdir():
-        if i == 'del':
-            subprocess.run("rmdir /s /Q del", shell=True)
-            break
-
     try:
         html = urllib.request.urlopen(f"https://github.com/DevFalkon/SinoWaves/releases")
         versions = re.findall(r"href=\"/DevFalkon/SinoWaves/releases/tag/v(\S{5})\"", html.read().decode())
@@ -232,6 +227,7 @@ def load_recent_songs():
 
 yes_upd = None
 no_upd = None
+
 
 def update_window():
     wd = width//2
