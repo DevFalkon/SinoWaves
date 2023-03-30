@@ -432,8 +432,8 @@ while 1:
                 if event.button == 1:
                     if yes_upd.get_pressed(pg.mouse.get_pos()):
                         import subprocess
-                        subprocess.call("python update.py", shell=True)
-                        break
+                        subprocess.Popen(["python", "update.py"], shell=True)
+                        app.quit_app()
                     if no_upd.get_pressed(pg.mouse.get_pos()):
                         update = False
                         pg.display.set_mode((app.width, app.height), pg.NOFRAME)
