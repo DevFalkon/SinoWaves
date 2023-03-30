@@ -258,6 +258,12 @@ current_sng_name = None
 min_check = False
 
 
+for i in os.listdir():
+    if i == 'del':
+        import subprocess
+        subprocess.run("rmdir /s /Q del", shell=True)
+        break
+
 while 1:
 
     app.win_update()
