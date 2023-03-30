@@ -264,6 +264,7 @@ for i in os.listdir():
         subprocess.run("rmdir /s /Q del", shell=True)
         break
 
+
 while 1:
 
     app.win_update()
