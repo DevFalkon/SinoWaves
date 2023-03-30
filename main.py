@@ -5,6 +5,7 @@ from modules.PygameGUI import widgets
 import modules.PyMusic as PyMusic
 import modules.PlayerHandler as PlayerHandler
 from threading import Thread
+import subprocess
 
 icon = 'graphics//icon.png'
 app = PygameGUI.GuiWindow(logo=icon)
@@ -51,7 +52,6 @@ search_bar = widgets.SearchBar(screen, 2 * column_spacing + int(col_r[0] * width
 def check_for_updates():
     import urllib.request
     import re
-    import subprocess
 
     for i in os.listdir():
         if i == 'del':
@@ -431,8 +431,7 @@ while 1:
             else:
                 if event.button == 1:
                     if yes_upd.get_pressed(pg.mouse.get_pos()):
-                        import subprocess
-                        subprocess.Popen(["python", "update.py"], shell=True)
+                        subprocess.Popen(["python", "update.py"], creationflags=subprocess.CREATE_NEW_CONSOLE)
                         app.quit_app()
                     if no_upd.get_pressed(pg.mouse.get_pos()):
                         update = False

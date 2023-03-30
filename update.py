@@ -2,10 +2,8 @@ import os
 import subprocess
 import urllib.request
 import re
-import time
 
 print('starting update')
-time.sleep(2)
 print('removing previous version')
 os.mkdir("del")
 for i in os.listdir():

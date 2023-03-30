@@ -1,5 +1,4 @@
 import subprocess
-import time
 import os
 from sys import argv
 
@@ -16,9 +15,5 @@ os.rename("main.exe", "SinoWaves.exe")
 subprocess.run("rmdir /s /Q env", shell=True)
 subprocess.run("rmdir /s /Q build", shell=True)
 subprocess.run("rmdir /s /Q dist", shell=True)
-print("done")
-for i in range(5):
-    print(f"closing in {5-i}s")
-    time.sleep(1)
-
 os.remove(argv[0])
+subprocess.Popen(['SinoWaves.exe'])
