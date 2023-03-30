@@ -282,14 +282,15 @@ def search_for_sng(run=True):
 
 
 def pause_to_play():
-    if control_buttons.play:
-        control_buttons.play = False
-        pg.mixer.music.pause()
-        control_buttons.update(screen, width, height, row_r, row_spacing)
-    else:
-        control_buttons.play = True
-        pg.mixer.music.unpause()
-        control_buttons.update(screen, width, height, row_r, row_spacing)
+    if current_sng_name or temp_sng_name:
+        if control_buttons.play:
+            control_buttons.play = False
+            pg.mixer.music.pause()
+            control_buttons.update(screen, width, height, row_r, row_spacing)
+        else:
+            control_buttons.play = True
+            pg.mixer.music.unpause()
+            control_buttons.update(screen, width, height, row_r, row_spacing)
 
 
 def next_sng():
