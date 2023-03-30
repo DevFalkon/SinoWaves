@@ -281,6 +281,43 @@ def search_for_sng(run=True):
     search_bar.is_active = False
 
 
+def pause_to_play():
+    if control_buttons.play:
+        control_buttons.play = False
+        pg.mixer.music.pause()
+        control_buttons.update(screen, width, height, row_r, row_spacing)
+    else:
+        control_buttons.play = True
+        pg.mixer.music.unpause()
+        control_buttons.update(screen, width, height, row_r, row_spacing)
+
+
+def next_sng():
+    global current_sng_name
+    index = iterable.index(current_sng_name)
+    if index == len(iterable) - 1:
+        index = 0
+    else:
+        index += 1
+    current_sng_name = iterable[index]
+    MusicPlayer.change_song(current_sng_name)
+    if not control_buttons.play:
+        pause_to_play()
+
+
+def prev_sng():
+    global current_sng_name
+    index = iterable.index(current_sng_name)
+    if index == 0:
+        index = len(iterable) - 1
+    else:
+        index -= 1
+    current_sng_name = iterable[index]
+    MusicPlayer.change_song(current_sng_name)
+    if not control_buttons.play:
+        pause_to_play()
+
+
 iterable = load_saved_songs()
 MusicPlayer = PlayerHandler.Player(song_progress_bar)
 control_buttons = PlayerHandler.MusicControlButtons()
@@ -353,6 +390,14 @@ while 1:
                         temp_sng_name = search_bar.text
                         got_search_res = False
                 search_bar.type(event.key)
+            else:
+                if event.key == pg.K_SPACE:
+                    pause_to_play()
+                if current_sng_name:
+                    if event.key == pg.K_k:
+                        next_sng()
+                    elif event.key == pg.K_j:
+                        prev_sng()
         if event.type == pg.MOUSEWHEEL and not update:
             if event.y:
                 main_scroll.update(ev=event.y)
@@ -385,23 +430,12 @@ while 1:
                         if pg.mixer.music.get_pos() != -1:
                             control_buttons.pause_play(screen, width, height, row_r, row_spacing)
                         forward = control_buttons.forward(screen, width, height, row_r, row_spacing)
-                        if forward:
-                            ind = iterable.index(current_sng_name)
-                            if ind == len(iterable)-1:
-                                ind = 0
-                            else:
-                                ind += 1
-                            current_sng_name = iterable[ind]
-                            MusicPlayer.change_song(current_sng_name)
-                        back = control_buttons.back(screen, width, height, row_r, row_spacing)
-                        if back:
-                            ind = iterable.index(current_sng_name)
-                            if ind == 0:
-                                ind = len(iterable)-1
-                            else:
-                                ind -= 1
-                            current_sng_name = iterable[ind]
-                            MusicPlayer.change_song(current_sng_name)
+                        if current_sng_name:
+                            if forward:
+                                next_sng()
+                            back = control_buttons.back(screen, width, height, row_r, row_spacing)
+                            if back:
+                                prev_sng()
 
                     elem = main_scroll.get_name()
 
