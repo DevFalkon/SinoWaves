@@ -7,13 +7,17 @@ html = urllib.request.urlopen(f"https://github.com/DevFalkon/SinoWaves/releases"
 versions = re.findall(r"href=\"/DevFalkon/SinoWaves/releases/tag/v(\S{5})\"", html.read().decode())
 highest_version = versions[0]
 
-os.mkdir("del")
-for i in os.listdir():
-    if i != "saved" and i != "del":
-        os.rename(i, f"del\\{i}")
+with open("version.txt", 'w') as file:
+    file.write(f'V{highest_version}')
 
 urllib.request.urlretrieve(f"https://github.com/DevFalkon/SinoWaves/archive/refs/tags/v{highest_version}.zip",
                            "new")
+
+os.mkdir("del")
+for i in os.listdir():
+    if i != "saved" and i != "del" and i != "new":
+        os.rename(i, f"del\\{i}")
+
 os.rename("new", "new.zip")
 subprocess.run("tar -xf new.zip", shell=True)
 os.remove("new.zip")

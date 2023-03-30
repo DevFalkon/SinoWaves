@@ -39,7 +39,8 @@ def colors(color):
         'light_grey': (163, 160, 158),
         'white': (255, 255, 255),
         'dark_grey': (41, 41, 41),
-        'blue_1': (121,121,121)
+        'blue_1': (121, 121, 121),
+        'black': (0, 0, 0)
     }
     return colors_dict[color]
 
