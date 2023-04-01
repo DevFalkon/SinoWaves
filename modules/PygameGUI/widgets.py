@@ -319,3 +319,35 @@ class PlayerProgressBar:
                     self.play_len += mouse_x-self.top_x
                     draw_rect(self.screen, self.top_x, self.top_y, self.width, self.height, colors('grey'))
                     pg.mixer.music.set_volume(0.5)
+
+
+class VolumeControl():
+    def __init__(self, screen, top_x, top_y, width, height):
+        self.bar_len = 50
+        self.screen = screen
+        self.top_x = top_x
+        self.top_y = top_y
+        self.height = height
+        self.width = width
+
+    def render(self):
+        draw_rect(self.screen, self.top_x, self.top_y, self.width, self.height, colors('grey'))
+        draw_rect(self.screen, self.top_x, self.top_y, self.bar_len/100*self.width,
+                  self.height, colors('white'))
+
+    def update(self, scroll=None):
+        mouse_pos = pg.mouse.get_pos()
+        if self.top_x <= mouse_pos[0] <= self.top_x + self.width - 2:
+            if self.top_y <= mouse_pos[1] <= self.top_y + self.height:
+                if scroll:
+                    self.bar_len += 5*scroll
+                    if self.bar_len > 100:
+                        self.bar_len = 100
+                    elif self.bar_len < 0:
+                        self.bar_len = 0
+                    self.render()
+                else:
+                    self.bar_len = ((mouse_pos[0]-self.top_x)/self.width)*100
+                    self.render()
+                return self.bar_len
+        return

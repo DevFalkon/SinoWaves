@@ -48,6 +48,7 @@ search_bar = widgets.SearchBar(screen, 2 * column_spacing + int(col_r[0] * width
                                y_coord_0 + row_spacing,
                                int(col_r[1] * width) - 2 * column_spacing, int(height * row_r[0]))
 
+volume_control = widgets.VolumeControl(screen, 0, 0, 10, 10)
 
 def check_for_updates():
     import urllib.request
@@ -61,7 +62,7 @@ def check_for_updates():
             data = file.read()[1::]
         data = ''.join(data.split('.'))
         return (highest_version > data)
-    except:
+    except Exception:
         return False
 
 
@@ -186,6 +187,14 @@ def main_page_layout(surface):
                                   int(col_r[0] * width) - 10, button_height,
                                   menu_radius-10, widgets.colors('dark_grey'),
                                   text="Download Song", bg_col="blue_1")
+
+    global volume_control
+    vol_bar_len = volume_control.bar_len
+    volume_control = widgets.VolumeControl(screen, width-40-width//10,
+                                           int(height * (1 - row_r[2])) + 7 * row_spacing + height // 65,
+                                           width//10, height//100+height//200)
+    volume_control.bar_len = vol_bar_len
+    volume_control.render()
 
 
 def screen_update():
@@ -402,10 +411,20 @@ while 1:
         if event.type == pg.MOUSEWHEEL and not update:
             if event.y:
                 main_scroll.update(ev=event.y)
+                bar_len = volume_control.update(scroll=event.y)
+                if bar_len:
+                    pg.mixer.music.set_volume(bar_len / 100)
+                    PlayerHandler.vol = bar_len/100
 
         if event.type == pg.MOUSEBUTTONDOWN:
             if not update:
                 if event.button == 1:
+                    if current_sng_name:
+                        bar_len = volume_control.update()
+                        if bar_len:
+                            pg.mixer.music.set_volume(bar_len/100)
+                            PlayerHandler.vol = bar_len / 100
+
                     if download_sng.get_pressed(pg.mouse.get_pos()) and MusicPlayer.song \
                             and not PyMusic.installing:
                         if f"{MusicPlayer.song}.mp3" not in os.listdir("saved\\music"):

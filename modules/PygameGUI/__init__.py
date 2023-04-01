@@ -85,7 +85,7 @@ class GuiWindow:
 
         # variables for drag functionality
         self.drag_lock = False
-        self.initial_window_position = (0, 0)
+        self.initial_window_position = get_max_window(max_width=False, origin=True)
         self.initial_mouse_position = (0, 0)
         self.relative_mouse_position = pg.mouse.get_pos()
         self.was_maximised = False
