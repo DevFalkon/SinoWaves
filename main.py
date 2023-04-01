@@ -189,11 +189,10 @@ def main_page_layout(surface):
                                   text="Download Song", bg_col="blue_1")
 
     global volume_control
-    vol_bar_len = volume_control.bar_len
     volume_control = widgets.VolumeControl(screen, width-40-width//10,
                                            int(height * (1 - row_r[2])) + 7 * row_spacing + height // 65,
                                            width//10, height//100+height//200)
-    volume_control.bar_len = vol_bar_len
+    volume_control.bar_len = PlayerHandler.vol*100
     volume_control.render()
 
 
