@@ -11,9 +11,9 @@ def draw_circle(screen, centre_x, centre_y, radius, color, update=True, mouse_po
     gfxdraw.aacircle(screen, centre_x, centre_y, radius, color)
     gfxdraw.filled_circle(screen, centre_x, centre_y, radius, color)
     if update:
-        pg.display.update(pg.Rect(centre_x-radius-1, centre_y-radius, 2 * radius+2, 2 * radius+2))
+        pg.display.update(pg.Rect(centre_x - radius - 1, centre_y - radius, 2 * radius + 2, 2 * radius + 2))
     if mouse_pos:
-        dist = math.sqrt(math.pow(mouse_pos[0]-centre_x, 2) + math.pow(mouse_pos[1]-centre_y, 2))
+        dist = math.sqrt(math.pow(mouse_pos[0] - centre_x, 2) + math.pow(mouse_pos[1] - centre_y, 2))
         if dist <= radius:
             return True
         return False
@@ -24,8 +24,8 @@ def draw_rect(screen, top_x, top_y, width, height, color, update=True, mouse_pos
     if update:
         pg.display.update(pg.Rect(top_x, top_y, width, height))
     if mouse_pos:
-        if top_x <= mouse_pos[0] <= top_x+width and\
-         top_y <= mouse_pos[1] <= top_y+height:
+        if top_x <= mouse_pos[0] <= top_x + width and \
+                top_y <= mouse_pos[1] <= top_y + height:
             return True
         return False
 
@@ -50,17 +50,19 @@ def rounded_rect(screen, top_x, top_y, width, height, radius, color, bg_color='d
     if bg_color:
         draw_rect(screen, top_x, top_y, width, height, colors(bg_color), update=False)
     if not mouse_pos:
-        draw_circle(screen, top_x+radius, top_y+radius, radius, color, update=False)
-        draw_circle(screen, top_x+width-radius-1, top_y+radius, radius, color, update=False)
-        draw_circle(screen, top_x+radius, top_y+height-radius-1, radius, color, update=False)
-        draw_circle(screen, top_x+width-radius-1, top_y+height-radius-1, radius, color, update=False)
+        draw_circle(screen, top_x + radius, top_y + radius, radius, color, update=False)
+        draw_circle(screen, top_x + width - radius - 1, top_y + radius, radius, color, update=False)
+        draw_circle(screen, top_x + radius, top_y + height - radius - 1, radius, color, update=False)
+        draw_circle(screen, top_x + width - radius - 1, top_y + height - radius - 1, radius, color, update=False)
 
-        draw_rect(screen, top_x+radius, top_y+radius, width-2*radius, height-2*radius, color, update=False)
+        draw_rect(screen, top_x + radius, top_y + radius, width - 2 * radius, height - 2 * radius, color, update=False)
 
-        draw_rect(screen, top_x, top_y+radius+2, radius, height-2*radius-2, color, update=False)
-        draw_rect(screen, top_x+width-radius, top_y+radius+2, radius, height-2*radius-2, color, update=False)
-        draw_rect(screen, top_x+radius+2, top_y, width-2*radius-2, radius, color, update=False)
-        draw_rect(screen, top_x+radius+2, top_y+height-radius, width-2*radius-2, radius, color, update=False)
+        draw_rect(screen, top_x, top_y + radius + 2, radius, height - 2 * radius - 2, color, update=False)
+        draw_rect(screen, top_x + width - radius, top_y + radius + 2, radius, height - 2 * radius - 2, color,
+                  update=False)
+        draw_rect(screen, top_x + radius + 2, top_y, width - 2 * radius - 2, radius, color, update=False)
+        draw_rect(screen, top_x + radius + 2, top_y + height - radius, width - 2 * radius - 2, radius, color,
+                  update=False)
 
     if mouse_pos:
         c1 = draw_circle(screen, top_x + radius, top_y + radius, radius, color, update=False,
@@ -99,7 +101,7 @@ class SearchBar:
         self.top_y = top_y
         self.width = width
         self.height = height
-        self.rad = height//2
+        self.rad = height // 2
         draw_rect(screen, top_x, top_y, width, height, colors(bg_color))
         draw_rect(self.screen, self.top_x + self.rad + 2, self.top_y, self.width - 2 * self.rad - 4, self.height,
                   (255, 255, 255), update=False)
@@ -108,7 +110,7 @@ class SearchBar:
         draw_circle(self.screen, self.top_x + self.width - self.rad, self.top_y + self.rad, self.rad,
                     (255, 255, 255), update=False)
         self.is_active = False
-        self.font_size = self.height-15
+        self.font_size = self.height - 15
         self.font = pg.font.Font('modules\\PygameGUI\\fonts\\Inter-Regular.ttf', self.font_size)
         self.text = 'Search   '
         self.render_text()
@@ -116,11 +118,11 @@ class SearchBar:
         self.cnt = 0
 
     def activate(self, mouse_pos, bttn):
-        c1 = draw_rect(self.screen, self.top_x+self.rad+2, self.top_y, self.width-2*self.rad-4, self.height,
+        c1 = draw_rect(self.screen, self.top_x + self.rad + 2, self.top_y, self.width - 2 * self.rad - 4, self.height,
                        (255, 255, 255), update=False, mouse_pos=mouse_pos)
-        c2 = draw_circle(self.screen, self.top_x+self.rad, self.top_y+self.rad, self.rad,
+        c2 = draw_circle(self.screen, self.top_x + self.rad, self.top_y + self.rad, self.rad,
                          (255, 255, 255), update=False, mouse_pos=mouse_pos)
-        c3 = draw_circle(self.screen, self.top_x+self.width-self.rad, self.top_y+self.rad, self.rad,
+        c3 = draw_circle(self.screen, self.top_x + self.width - self.rad, self.top_y + self.rad, self.rad,
                          (255, 255, 255), update=False, mouse_pos=mouse_pos)
 
         if (c1 or c2 or c3) and bttn and not self.is_active:
@@ -133,9 +135,9 @@ class SearchBar:
         else:
             col = 'grey'
         text = self.font.render(self.text, True, colors(col))
-        self.screen.blit(text, (self.top_x+self.rad,
-                                self.top_y+3))
-        pg.display.update(pg.Rect(self.top_x+self.rad, self.top_y, self.width-2*self.rad, self.height))
+        self.screen.blit(text, (self.top_x + self.rad,
+                                self.top_y + 3))
+        pg.display.update(pg.Rect(self.top_x + self.rad, self.top_y, self.width - 2 * self.rad, self.height))
 
     def type(self, key):
         if self.is_active:
@@ -164,11 +166,12 @@ class Button:
         self.text = text
         rounded_rect(self.screen, self.top_x, self.top_y, self.width, self.height, self.rad, self.color,
                      bg_color=bg_col)
-        font_size = self.height//2
+        font_size = self.height // 2
         font = pg.font.Font('modules\\PygameGUI\\fonts\\Inter-Regular.ttf', font_size)
-        text = font.render(text, True, colors(font_col))
-        self.screen.blit(text, (self.top_x+5,
-                                self.top_y+(self.height-font_size)//2-3))
+        text_sr = font.render(text, True, colors(font_col))
+        text_width = text_sr.get_width()
+        self.screen.blit(text_sr, (self.top_x + self.width // 2 - text_width // 2,
+                                   self.top_y + (self.height - font_size) // 2 - 3))
         pg.display.update(pg.Rect(self.top_x, self.top_y, self.width, self.height))
 
     def get_pressed(self, mouse_pos):
@@ -198,7 +201,7 @@ class Scroll:
 
         self.spacer = 2
 
-        self.elem_height = app_window_height//16
+        self.elem_height = app_window_height // 16
         self.font_size = self.elem_height - 12
 
     # to get maximum nuber of rows that can be displayed at once
@@ -240,12 +243,12 @@ class Scroll:
 
     def update(self, ev=None):
         mouse_x, mouse_y = pg.mouse.get_pos()
-        if self.top_x+2 <= mouse_x <= self.top_x+self.width-4 and self.top_y <= mouse_y <= \
+        if self.top_x + 2 <= mouse_x <= self.top_x + self.width - 4 and self.top_y <= mouse_y <= \
                 self.top_y + self.height:
             max_y = self.get_max_y()
             if self.get_max_rows() < len(self.iterable) and max_y >= self.top_y + self.height:
                 if ev and self.scroll <= 0:
-                    self.scroll += ev*self.scroll_sens
+                    self.scroll += ev * self.scroll_sens
             else:
                 pass
 
@@ -261,7 +264,7 @@ class Scroll:
 
     def get_name(self):
         mouse_x, mouse_y = pg.mouse.get_pos()
-        if self.top_x+2 <= mouse_x <= self.top_x+self.width-4 and self.top_y <= mouse_y <= \
+        if self.top_x + 2 <= mouse_x <= self.top_x + self.width - 4 and self.top_y <= mouse_y <= \
                 self.top_y + self.height:
             for ind, elem in enumerate(self.iterable):
                 if self.top_y + self.scroll + ind * (self.spacer + self.elem_height) <= mouse_y <= \
@@ -303,20 +306,20 @@ class PlayerProgressBar:
                 self.bar_len = 0
                 self.play_len = 0
                 return
-            self.bar_len = ((self.width)/(self.duration))*(len_played/1000)+self.play_len
+            self.bar_len = ((self.width) / (self.duration)) * (len_played / 1000) + self.play_len
             if self.bar_len > self.width:
                 self.bar_len = self.width
             draw_rect(self.screen, self.top_x, self.top_y, self.bar_len, self.height, colors('white'))
-            if self.top_x <= mouse_x <= self.top_x+self.width-1 and \
-                    self.top_y <= mouse_y <= self.top_y+self.height:
+            if self.top_x <= mouse_x <= self.top_x + self.width - 1 and \
+                    self.top_y <= mouse_y <= self.top_y + self.height:
                 if pg.mouse.get_pressed()[0]:
                     pg.mixer.music.set_volume(0)
                     pg.mixer.music.rewind()
                     self.play_len -= self.bar_len
-                    pos = ((mouse_x-self.top_x)*self.duration)/(self.width)
+                    pos = ((mouse_x - self.top_x) * self.duration) / (self.width)
                     pg.mixer.music.set_pos(pos)
                     time.sleep(0.02)
-                    self.play_len += mouse_x-self.top_x
+                    self.play_len += mouse_x - self.top_x
                     draw_rect(self.screen, self.top_x, self.top_y, self.width, self.height, colors('grey'))
                     pg.mixer.music.set_volume(0.5)
 
@@ -332,7 +335,7 @@ class VolumeControl():
 
     def render(self):
         draw_rect(self.screen, self.top_x, self.top_y, self.width, self.height, colors('grey'))
-        draw_rect(self.screen, self.top_x, self.top_y, self.bar_len/100*self.width,
+        draw_rect(self.screen, self.top_x, self.top_y, self.bar_len / 100 * self.width,
                   self.height, colors('white'))
 
     def update(self, scroll=None):
@@ -340,14 +343,14 @@ class VolumeControl():
         if self.top_x <= mouse_pos[0] <= self.top_x + self.width - 2:
             if self.top_y <= mouse_pos[1] <= self.top_y + self.height:
                 if scroll:
-                    self.bar_len += 5*scroll
+                    self.bar_len += 5 * scroll
                     if self.bar_len > 100:
                         self.bar_len = 100
                     elif self.bar_len < 0:
                         self.bar_len = 0
                     self.render()
                 else:
-                    self.bar_len = ((mouse_pos[0]-self.top_x)/self.width)*100
+                    self.bar_len = ((mouse_pos[0] - self.top_x) / self.width) * 100
                     self.render()
                 return self.bar_len
         return

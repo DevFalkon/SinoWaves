@@ -208,7 +208,8 @@ class GuiWindow:
             title_size = self.top_bar_height - 15
             font = pg.font.Font('modules\\PygameGUI\\fonts\\Inter-Regular.ttf', title_size)
             text = font.render(self.title, True, self.color('white'))
-            self.screen.blit(text, (self.width // 2 - (len(self.title) // 3) * title_size, 5))
+            text_width = text.get_width()
+            self.screen.blit(text, (self.width // 2 - text_width // 2 - 2, 5))
 
         if self.logo:
             icon = pg.image.load(self.logo).convert_alpha()
