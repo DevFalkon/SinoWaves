@@ -314,6 +314,10 @@ class GuiWindow:
         return colors[color]
 
     def quit_app(self):
+        pg.mixer.music.unload()
+        for file in os.listdir('saved\\temp'):
+            os.remove(f'saved\\temp\\{file}')
+
         # Closing animation
         opacity = self.window.opacity * 100
         while opacity > 0:
