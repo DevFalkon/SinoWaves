@@ -2,3 +2,4 @@ saved
 .idea
 env
 __pycache__/
+.gitignore

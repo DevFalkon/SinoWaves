@@ -276,6 +276,43 @@ class Scroll:
         self.render()
 
 
+class SongScroll(Scroll):
+    def __init__(self, screen, top_x, top_y, width, height, iterable, app_window_height):
+        super().__init__(screen, top_x, top_y, width, height, iterable, app_window_height)
+        self.selected = []
+
+    def render(self):
+        font = pg.font.Font('modules\\PygameGUI\\fonts\\Inter-Regular.ttf', self.font_size)
+        draw_rect(self.screen, self.top_x, self.top_y, self.width, self.height,
+                  colors(self.background_color),
+                  update=False)
+        for ind, elem in enumerate(self.iterable):
+            if self.top_y - self.elem_height <= self.top_y + self.scroll + ind * (
+                    self.spacer + self.elem_height) < self.top_y + self.height:
+                # Drawing the seperator for each button
+                draw_rect(self.screen, self.top_x + 2,
+                          self.top_y + self.scroll +
+                          ind * (self.spacer + self.elem_height) + self.elem_height,
+                          self.width - 4, self.spacer, colors('white'), update=False)
+
+                if elem in self.selected:
+                    draw_rect(self.screen, self.top_x + 2,
+                              self.top_y + self.scroll +
+                              ind * (self.spacer + self.elem_height),
+                              self.width - 4, self.elem_height,
+                              colors('grey'), update=False)
+                text = font.render(str(elem), True, colors('white'))
+                self.screen.blit(text, (self.top_x + 10,
+                                        self.top_y + self.scroll +
+                                        ind * (self.spacer + self.elem_height)))
+
+            # to reduce no of iterations
+            if self.top_y + self.scroll + ind * (self.spacer + self.elem_height) > \
+                    self.top_y + self.height:
+                break
+        pg.display.update(pg.Rect(self.top_x, self.initial_y, self.width, self.height))
+
+
 class PlayerProgressBar:
 
     def __init__(self, screen, top_x, top_y, width, height) -> None:

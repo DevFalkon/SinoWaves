@@ -32,12 +32,12 @@ recently_played = widgets.Button(screen, 0, 0, 10, 10, 10, widgets.colors('white
 downloads = widgets.Button(screen, 0, 0, 10, 10, 10, widgets.colors('white'))
 download_sng = widgets.Button(screen, 0, 0, 10, 10, 10, widgets.colors('white'))
 
-main_scroll = widgets.Scroll(screen, 3 * column_spacing + int(col_r[0] * width),
-                             y_coord_0 + 2 * row_spacing + int(height * row_r[0]) + 152,
-                             int(col_r[1] * width) - 4 * column_spacing,
-                             int(height * (row_r[1] - row_r[0])) - 3 * row_spacing - 162,
-                             iterable,
-                             height)
+main_scroll = widgets.SongScroll(screen, 3 * column_spacing + int(col_r[0] * width),
+                                 y_coord_0 + 2 * row_spacing + int(height * row_r[0]) + 152,
+                                 int(col_r[1] * width) - 4 * column_spacing,
+                                 int(height * (row_r[1] - row_r[0])) - 3 * row_spacing - 162,
+                                 iterable,
+                                 height)
 
 song_progress_bar = widgets.PlayerProgressBar(screen,
                                               40,
@@ -49,6 +49,7 @@ search_bar = widgets.SearchBar(screen, 2 * column_spacing + int(col_r[0] * width
                                int(col_r[1] * width) - 2 * column_spacing, int(height * row_r[0]))
 
 volume_control = widgets.VolumeControl(screen, 0, 0, 10, 10)
+
 
 def check_for_updates():
     import urllib.request
@@ -112,12 +113,12 @@ def main_scroll_elements(surface):
     if not save_iter:
         if iterable_content == "downloads":
             save_iter = load_saved_songs()
-    main_scroll = widgets.Scroll(screen, 3 * column_spacing + int(col_r[0] * width),
-                                 y_coord_0 + 2 * row_spacing + int(height * row_r[0]) + 135,
-                                 int(col_r[1] * width) - 4 * column_spacing,
-                                 int(height * (row_r[1] - row_r[0])) - 3 * row_spacing - 145,
-                                 iterable,
-                                 height)
+    main_scroll = widgets.SongScroll(screen, 3 * column_spacing + int(col_r[0] * width),
+                                     y_coord_0 + 2 * row_spacing + int(height * row_r[0]) + 135,
+                                     int(col_r[1] * width) - 4 * column_spacing,
+                                     int(height * (row_r[1] - row_r[0])) - 3 * row_spacing - 145,
+                                     iterable,
+                                     height)
     main_scroll.iterable = save_iter
     main_scroll.force_update()
 
@@ -169,30 +170,30 @@ def main_page_layout(surface):
     button_height = int(row_r[1] * height) // 16
     sch_bar_height = search_bar.height
     global downloads
-    downloads = widgets.Button(screen, column_spacing + 5, y_coord_0 + 2*row_spacing + sch_bar_height,
-                               int(col_r[0] * width) - 10, button_height, menu_radius-10,
+    downloads = widgets.Button(screen, column_spacing + 5, y_coord_0 + 2 * row_spacing + sch_bar_height,
+                               int(col_r[0] * width) - 10, button_height, menu_radius - 10,
                                widgets.colors('dark_grey'),
                                text="Downloads", bg_col="blue_1")
     global recently_played
     recently_played = widgets.Button(screen, column_spacing + 5,
-                                     y_coord_0 + 2*row_spacing + height//300 + button_height + sch_bar_height,
-                                     int(col_r[0] * width) - 10, button_height, menu_radius-10,
+                                     y_coord_0 + 2 * row_spacing + height // 300 + button_height + sch_bar_height,
+                                     int(col_r[0] * width) - 10, button_height, menu_radius - 10,
                                      widgets.colors('dark_grey'),
                                      text="Recently Played", bg_col="blue_1")
 
     global download_sng
     download_sng = widgets.Button(screen, width // 2 + 4 * (height - 50) // 22 + 5,
                                   int(height * (1 - row_r[2]) + 6 * row_spacing +
-                                      height // 65 + button_height//4),
+                                      height // 65 + button_height // 4),
                                   int(col_r[0] * width) - 10, button_height,
-                                  menu_radius-10, widgets.colors('dark_grey'),
+                                  menu_radius - 10, widgets.colors('dark_grey'),
                                   text="Download Song", bg_col="blue_1")
 
     global volume_control
-    volume_control = widgets.VolumeControl(screen, width-40-width//10,
+    volume_control = widgets.VolumeControl(screen, width - 40 - width // 10,
                                            int(height * (1 - row_r[2])) + 7 * row_spacing + height // 65,
-                                           width//10, height//100+height//200)
-    volume_control.bar_len = PlayerHandler.vol*100
+                                           width // 10, height // 100 + height // 200)
+    volume_control.bar_len = PlayerHandler.vol * 100
     volume_control.render()
 
 
@@ -238,20 +239,20 @@ no_upd = None
 
 
 def update_window():
-    wd = width//2
-    ht = height//2
-    widgets.draw_rect(screen, width//2-wd//2, height//2-ht//2, wd, ht, widgets.colors('light_grey'))
+    wd = width // 2
+    ht = height // 2
+    widgets.draw_rect(screen, width // 2 - wd // 2, height // 2 - ht // 2, wd, ht, widgets.colors('light_grey'))
     font = pg.font.Font('modules\\PygameGUI\\fonts\\Inter-Regular.ttf', size=height // 16)
     text = "update available"
     text = font.render(text.capitalize(), True, widgets.colors('black'))
-    screen.blit(text, (width//2-wd//4, height//2-ht//2))
-    pg.display.update(width//2-wd//2, height//2-ht//2, wd, ht)
+    screen.blit(text, (width // 2 - wd // 4, height // 2 - ht // 2))
+    pg.display.update(width // 2 - wd // 2, height // 2 - ht // 2, wd, ht)
     global yes_upd, no_upd
-    yes_upd = widgets.Button(screen, width//2 - wd//2 + 10, height//2 + ht//2 - ht//10 - 10,
-                             wd//2 - 20, ht//10, 15, widgets.colors('black'),
+    yes_upd = widgets.Button(screen, width // 2 - wd // 2 + 10, height // 2 + ht // 2 - ht // 10 - 10,
+                             wd // 2 - 20, ht // 10, 15, widgets.colors('black'),
                              text="Update Now", bg_col="light_grey")
-    no_upd = widgets.Button(screen, width//2 + 10, height//2 + ht//2 - ht//10 - 10,
-                            wd//2 - 20, ht//10, 15, widgets.colors('black'),
+    no_upd = widgets.Button(screen, width // 2 + 10, height // 2 + ht // 2 - ht // 10 - 10,
+                            wd // 2 - 20, ht // 10, 15, widgets.colors('black'),
                             text="Update Later", bg_col="light_grey")
 
 
@@ -337,7 +338,6 @@ update = False
 if check_for_updates():
     update = True
 
-
 while 1:
 
     app.win_update()
@@ -376,7 +376,7 @@ while 1:
 
     if current_sng_name and pg.mixer.music.get_pos() == -1 and len(iterable) > 1:
         ind = iterable.index(current_sng_name)
-        if ind == len(iterable)-1:
+        if ind == len(iterable) - 1:
             ind = 0
         else:
             ind += 1
@@ -385,6 +385,15 @@ while 1:
         control_buttons.play = True
         control_buttons.update(screen, width, height, row_r, row_spacing)
 
+    if current_sng_name:
+        if len(main_scroll.selected) > 0:
+            if current_sng_name != main_scroll.selected[0]:
+                main_scroll.selected[0] = (current_sng_name)
+                main_scroll.force_update()
+        else:
+            main_scroll.selected.append(current_sng_name)
+            main_scroll.force_update()
+        
     for event in pg.event.get():
         if event.type == pg.QUIT:
             app.quit_app()
@@ -413,7 +422,7 @@ while 1:
                 bar_len = volume_control.update(scroll=event.y)
                 if bar_len:
                     pg.mixer.music.set_volume(bar_len / 100)
-                    PlayerHandler.vol = bar_len/100
+                    PlayerHandler.vol = bar_len / 100
 
         if event.type == pg.MOUSEBUTTONDOWN:
             if not update:
@@ -421,7 +430,7 @@ while 1:
                     if current_sng_name:
                         bar_len = volume_control.update()
                         if bar_len:
-                            pg.mixer.music.set_volume(bar_len/100)
+                            pg.mixer.music.set_volume(bar_len / 100)
                             PlayerHandler.vol = bar_len / 100
 
                     if download_sng.get_pressed(pg.mouse.get_pos()) and MusicPlayer.song \
