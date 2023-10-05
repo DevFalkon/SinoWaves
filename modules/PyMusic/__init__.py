@@ -1,4 +1,5 @@
 import subprocess
+import time
 import urllib.request
 import re
 import os
@@ -68,7 +69,7 @@ def inst(link, name):
     curr_ints = True
     try:
         subprocess.call(f'utilities\\yt-dlp\\yt-dlp.exe -o \"saved\\temp\\{name}.mp4\" {link}',
-                        creationflags=subprocess.CREATE_NO_WINDOW, timeout=10)
+                        creationflags=subprocess.CREATE_NO_WINDOW, timeout=20)
     except subprocess.TimeoutExpired:
         print('yt-dlp timeout')
         curr_ints = False
@@ -79,6 +80,12 @@ def inst(link, name):
         os.remove(f"saved\\temp\\{name}.wav")
 
     try:
+        time_st = time.time()
+
+        while f'{name}.mp4.part' in os.listdir("saved\\temp"):
+            if time.time()-time_st > 5:
+                return
+
         if f'{name}.wav' in os.listdir("saved\\temp"):
             os.remove(f"saved\\temp\\{name}.wav")
         subprocess.call(f'utilities\\ffmpeg\\ffmpeg.exe -i "saved\\temp\\{name}.mp4" "saved\\temp\\{name}.wav"',
